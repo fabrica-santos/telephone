@@ -8,3 +8,4 @@ Make sure to do your best so all customers' requests are satisfied and that you 
 ## Programming:
 - Eliabe Oliveira Nunes (TechMan06)
 - Victor (Capuccino Enjoyer)
+- Vitor França (VTfranca)
