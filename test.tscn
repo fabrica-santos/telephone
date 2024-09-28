@@ -1,0 +1,134 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvd4wrlwbvm5j"]
+
+[ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://comp_ui.tres" id="1_tcb0d"]
+
+[node name="MainDesktop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_tcb0d")
+
+[node name="DesktopTaskbar" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_tcb0d")
+
+[node name="DesktopSplit" type="VSplitContainer" parent="DesktopTaskbar"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_tcb0d")
+split_offset = 1000
+metadata/_edit_use_anchors_ = true
+
+[node name="Desktop" type="Control" parent="DesktopTaskbar/DesktopSplit"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DesktopBackground" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="DesktopTaskbar/DesktopSplit/Desktop/DesktopBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WindowLayer" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Taskbar" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit"]
+custom_minimum_size = Vector2(128, 35)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_tcb0d")
+
+[node name="Panel" type="Panel" parent="DesktopTaskbar/DesktopSplit/Taskbar"]
+layout_mode = 2
+theme = ExtResource("1_tcb0d")
+
+[node name="BoxContainer" type="HBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_tcb0d")
+alignment = 1
+
+[node name="BoxContainer2" type="VBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_tcb0d")
+
+[node name="MarginContainer" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_tcb0d")
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Button" type="Button" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_tcb0d")
+text = "Start
+"
+
+[node name="MarginContainer2" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_tcb0d")
+
+[node name="BoxContainer4" type="HBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_tcb0d")
+
+[node name="BoxContainer3" type="VBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_tcb0d")
+
+[node name="MarginContainer" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_tcb0d")
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Button" type="Button" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_tcb0d")
+text = "1:52 PM"
+
+[node name="MarginContainer2" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_tcb0d")
