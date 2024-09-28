@@ -11,14 +11,34 @@ config_version=5
 [application]
 
 config/name="Telephone"
+run/main_scene="res://scenes/test.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/basic_ui/placeholder/icon.svg"
 
 [display]
 
-window/size/viewport_width=1024
-window/size/viewport_height=767
-window/size/window_width_override=600
-window/size/window_height_override=512
+window/size/viewport_width=800
+window/size/viewport_height=600
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+
+[input]
+
+left_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(49, 11),"global_position":Vector2(56, 47),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+right_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(140, 14),"global_position":Vector2(147, 50),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+middle_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":4,"position":Vector2(156, 0),"global_position":Vector2(163, 36),"factor":1.0,"button_index":3,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+
+[physics]
+
+2d/stretch/aspect="keep"

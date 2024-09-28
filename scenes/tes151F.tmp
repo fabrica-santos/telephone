@@ -1,0 +1,80 @@
+[gd_scene load_steps=3 format=3 uid="uid://e8j4flhicau5"]
+
+[ext_resource type="Script" path="res://scripts/basic_ui/window.gd" id="1_2hvvx"]
+[ext_resource type="Texture2D" uid="uid://dmnmblvm814jf" path="res://assets/basic_ui/placeholder/close.png" id="1_l3hhq"]
+
+[node name="WindowObject" type="Control"]
+z_as_relative = false
+texture_filter = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_2hvvx")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 1
+
+[node name="WindowContents" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeaderArea" type="MarginContainer" parent="Panel/WindowContents"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+
+[node name="Header" type="HBoxContainer" parent="Panel/WindowContents/HeaderArea"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="MinBtn" type="TextureButton" parent="Panel/WindowContents/HeaderArea/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("1_l3hhq")
+
+[node name="WindBtn" type="TextureButton" parent="Panel/WindowContents/HeaderArea/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("1_l3hhq")
+
+[node name="CloseBtn" type="TextureButton" parent="Panel/WindowContents/HeaderArea/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("1_l3hhq")
+
+[node name="CanvasMargin" type="MarginContainer" parent="Panel/WindowContents"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="WindowCanvas" type="Control" parent="Panel/WindowContents/CanvasMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[connection signal="focus_entered" from="Panel" to="." method="_on_panel_focus_entered"]
+[connection signal="focus_exited" from="Panel" to="." method="_on_panel_focus_exited"]
+[connection signal="mouse_entered" from="Panel/WindowContents/HeaderArea" to="." method="_on_mouse_entered_header"]
+[connection signal="mouse_exited" from="Panel/WindowContents/HeaderArea" to="." method="_on_mouse_exited_header"]
+[connection signal="button_up" from="Panel/WindowContents/HeaderArea/Header/WindBtn" to="." method="_on_wind_btn_up"]

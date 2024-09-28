@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvd4wrlwbvm5j"]
+[gd_scene load_steps=4 format=3 uid="uid://cvd4wrlwbvm5j"]
 
-[ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://comp_ui.tres" id="1_tcb0d"]
+[ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="1_yax8y"]
+[ext_resource type="PackedScene" uid="uid://e8j4flhicau5" path="res://scenes/testwindow.tscn" id="2_sbog5"]
+[ext_resource type="Texture2D" uid="uid://inw3pd6ukgxd" path="res://assets/basic_ui/placeholder/icon.svg" id="2_tywtv"]
 
 [node name="MainDesktop" type="Control"]
 layout_mode = 3
@@ -11,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="DesktopTaskbar" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -20,12 +22,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="DesktopSplit" type="VSplitContainer" parent="DesktopTaskbar"]
+z_as_relative = false
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 split_offset = 1000
 metadata/_edit_use_anchors_ = true
 
@@ -34,6 +37,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="DesktopBackground" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
+z_index = -1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,7 +53,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WindowLayer" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
+[node name="AppLayer" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,15 +61,34 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="TextureRect" type="TextureRect" parent="DesktopTaskbar/DesktopSplit/Desktop/AppLayer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_tywtv")
+
+[node name="WindowLayer" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="WindowObject" parent="DesktopTaskbar/DesktopSplit/Desktop/WindowLayer" instance=ExtResource("2_sbog5")]
+layout_mode = 1
+
 [node name="Taskbar" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit"]
+z_as_relative = false
 custom_minimum_size = Vector2(128, 35)
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="Panel" type="Panel" parent="DesktopTaskbar/DesktopSplit/Taskbar"]
 layout_mode = 2
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="BoxContainer" type="HBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel"]
 layout_mode = 1
@@ -75,18 +98,18 @@ anchor_bottom = 1.0
 offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 alignment = 1
 
 [node name="BoxContainer2" type="VBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="MarginContainer" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -95,28 +118,28 @@ theme_override_constants/margin_bottom = 4
 [node name="Button" type="Button" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 text = "Start
 "
 
 [node name="MarginContainer2" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="BoxContainer4" type="HBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="BoxContainer3" type="VBoxContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer"]
 layout_mode = 2
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 
 [node name="MarginContainer" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -125,10 +148,10 @@ theme_override_constants/margin_bottom = 4
 [node name="Button" type="Button" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
 text = "1:52 PM"
 
 [node name="MarginContainer2" type="MarginContainer" parent="DesktopTaskbar/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_tcb0d")
+theme = ExtResource("1_yax8y")
