@@ -5,13 +5,16 @@ const RESIZE_BORDER_SIZE = 4
 @export_category("General Properties")
 @export var window_content: PackedScene
 @export var draggable: bool = true
-@export var can_maximize: bool = true
+@export var can_window: bool = true
 @export var can_minimize: bool = true
+@export var can_close: bool = true
 @export var is_maximized: bool = false
 @export var main_focus: bool = false
-@export var destroy_if_closed: = false
+@export var destroy_if_closed: = true
 @export var show_on_taskbar: = false
-
+@export_category("Header Properties")
+@export var window_name: String = ""
+@export var window_icon: CompressedTexture2D
 @export_category("Size Properties")
 @export var resizable_width: bool = true
 @export var resizable_height: bool = true
@@ -19,6 +22,7 @@ const RESIZE_BORDER_SIZE = 4
 @export var min_size: Vector2 = Vector2(100.0, 100.0)
 @export var max_size: Vector2 = Vector2(600.0, 800.0)
 
+var _closed: bool = false
 var _initial_mouse: Vector2
 var _initial_pos: Vector2
 var _initial_size: Vector2
@@ -30,29 +34,46 @@ var _is_resizing: bool = false
 var _original_window_size: Vector2
 var _original_window_pos: Vector2
 
-
-
 @onready var window_canvas: Control = %WindowCanvas
 @onready var min_btn: TextureButton = %MinBtn
 @onready var wind_btn: TextureButton = %WindBtn
+@onready var close_btn: TextureButton = %CloseBtn
+@onready var window_label: Label = %WindowName
+@onready var icon_texture: TextureRect = %WindowIcon
+
 
 func _ready():
-	min_btn.visible = can_maximize
-	min_btn.disabled = !can_maximize
-	wind_btn.visible = can_maximize
-	wind_btn.disabled = !can_maximize
+	min_btn.visible = can_minimize
+	min_btn.disabled = !can_minimize
+	wind_btn.visible = can_window
+	wind_btn.disabled = !can_window
+	close_btn.visible = can_close
+	close_btn.disabled = !can_close
+	window_label.text = window_name
+	
+	if window_icon != null:
+		icon_texture.texture = window_icon
+	
+	else:
+		%IconContainer.visible = false
+	
+		
+	if window_content != null:
+		var content_instance: Node = window_content.instantiate()
+		window_canvas.add_child(content_instance)
+		
+	set_size(start_size)
+	z_index = -1
 
 
 func _input(event) -> void:
 	var _window_rect: Rect2 = get_global_rect()
-	var _local_mouse_pos: Vector2 = event.position - get_global_position()
-	
-	if resizable_width && abs(_local_mouse_pos.x - _window_rect.size.x) < RESIZE_BORDER_SIZE:
-		mouse_default_cursor_shape = Control.CURSOR_HSIZE
-			
+	var _local_mouse_pos: Vector2 = get_global_mouse_position() - get_global_position()
+
 	if Input.is_action_just_pressed("left_click"):
 		
 		if _mouse_on_header:
+			
 			if draggable && _focused:
 				_initial_mouse = event.position
 				_initial_pos = get_global_position()
@@ -115,8 +136,10 @@ func _input(event) -> void:
 				
 				if _initial_pos.x != 0:
 					_new_size.x = _initial_size.x + (_initial_mouse.x - event.position.x)
-					set_position(Vector2(_initial_pos.x - (_new_size.x - _initial_size.x), get_position().y))
-				
+					
+					if get_size().x > min_size.x:
+						set_position(Vector2(_initial_pos.x - (_new_size.x - _initial_size.x), get_position().y))
+						
 			if resizable_height:
 				
 				if _resizing.y:
@@ -136,6 +159,7 @@ func _input(event) -> void:
 
 
 func toggle_maximize():
+	
 	if !is_maximized:
 		_original_window_pos = global_position
 		_original_window_size = get_size()
@@ -145,27 +169,28 @@ func toggle_maximize():
 		set_offset(SIDE_TOP, 0.0)
 		set_offset(SIDE_BOTTOM, 0.0)
 		global_position = Vector2.ZERO
+		_on_panel_focus_entered()
 		is_maximized = true
+	
 	else:
 		set_anchors_preset(Control.PRESET_TOP_LEFT, true)
 		set_size(_original_window_size)
 		set_position(_original_window_pos)
 		is_maximized = false
-		
 
 
-func _on_mouse_entered_header() -> void:
+func _on_header_mouse_entered() -> void:
 	_mouse_on_header = true
 
 
-func _on_mouse_exited_header() -> void:
+func _on_header_mouse_exited() -> void:
 	_mouse_on_header = false
 
 
 func _on_panel_focus_entered() -> void:
 	_focused = true
 	window_canvas.set_process_input(_focused)
-	z_index = _focused
+	z_index = int(_focused) - 1
 
 
 func _on_panel_focus_exited() -> void:
@@ -174,8 +199,22 @@ func _on_panel_focus_exited() -> void:
 	_is_resizing = false
 	_resizing = Vector2(false, false)
 	window_canvas.set_process_input(_focused)
-	z_index = _focused
+	z_index = int(_focused) - 1
+
 
 func _on_wind_btn_up() -> void:
 	toggle_maximize()
+
+
+func _on_close_btn_button_up() -> void:
 	
+	if destroy_if_closed:
+		queue_free()
+	
+	else:
+		_focused = false
+		_is_moving = false
+		_is_resizing = false
+		window_canvas.set_process_input(_focused)
+		visible = false
+		_closed = true

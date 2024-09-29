@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvnrdp6inypyc"]
+
+[ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="1_66q04"]
+[ext_resource type="Script" path="res://scripts/basic_ui/desktop_icon.gd" id="1_s1my1"]
+
+[node name="DesktopIcon" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 100.0
+focus_mode = 1
+mouse_filter = 1
+script = ExtResource("1_s1my1")
+metadata/_edit_use_anchors_ = true
+
+[node name="IconMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="FocusedColor" type="ColorRect" parent="IconMargin"]
+layout_mode = 2
+color = Color(0, 0.321569, 1, 0.341176)
+
+[node name="IconContainer" type="VBoxContainer" parent="IconMargin"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="ImgMargin" type="MarginContainer" parent="IconMargin/IconContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="IconImg" type="TextureRect" parent="IconMargin/IconContainer/ImgMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+stretch_mode = 2
+
+[node name="TitleMargin" type="MarginContainer" parent="IconMargin/IconContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="TitleLabel" type="Label" parent="IconMargin/IconContainer/TitleMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("1_66q04")
+horizontal_alignment = 1
+autowrap_mode = 1
+
+[node name="ClickTime" type="Timer" parent="."]
+one_shot = true
+
+[node name="LoadingTime" type="Timer" parent="."]
+
+[connection signal="focus_entered" from="IconMargin/IconContainer" to="." method="_on_icon_focus_entered"]
+[connection signal="focus_exited" from="IconMargin/IconContainer" to="." method="_on_icon_focus_exited"]
+[connection signal="mouse_entered" from="IconMargin/IconContainer" to="." method="_on_icon_mouse_entered"]
+[connection signal="mouse_exited" from="IconMargin/IconContainer" to="." method="_on_icon_mouse_exited"]
+[connection signal="timeout" from="ClickTime" to="." method="_on_click_time_timeout"]

@@ -1,6 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://xj70lsnjv8gq"]
 
 [resource]
+default_font_size = 10
 MarginContainer/constants/margin_bottom = 0
 MarginContainer/constants/margin_left = 0
 MarginContainer/constants/margin_right = 0

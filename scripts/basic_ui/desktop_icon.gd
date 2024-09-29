@@ -1,0 +1,74 @@
+extends Control
+
+
+@export_category("General Properties")
+@export var application: String
+@export var is_shortcut: bool = false
+@export var open_folder: bool = false
+@export var has_loading: bool = false
+@export var min_load: float
+@export var max_load: float
+
+@onready var icon_img: TextureRect = %IconImg
+@onready var title_label: Label = %TitleLabel
+
+var _initial_mouse: Vector2
+var _initial_pos: Vector2
+var _initial_size: Vector2
+var _is_moving: bool = false
+var _first_click: bool = false
+var _is_mouse_inside: bool = false
+var _is_focused = false
+
+
+func _ready() -> void:
+	
+	if Global.app_database[application]["icon"] != "":
+		icon_img.texture = load(Global.big_icon_dir + Global.app_database[application]["icon"])
+
+	if title_label.text != null || title_label.text != "":
+		title_label.text = Global.app_database[application]["name"]
+
+
+func _input(event) -> void:
+	var _window_rect: Rect2 = get_global_rect()
+	var _local_mouse_pos: Vector2 = get_global_mouse_position() - get_global_position()
+
+	if Input.is_action_just_pressed("left_click") && _is_mouse_inside && _is_focused:
+		_initial_mouse = event.position
+		_initial_pos = get_global_position()
+		_is_moving = true
+		_first_click = true
+		$ClickTime.start()
+		
+		if _first_click:
+			Global.open_application(application)
+	
+	if Input.is_action_just_pressed("left_click") && !_is_mouse_inside:
+		_on_icon_focus_exited()
+	
+	if Input.is_action_pressed("left_click") && _is_moving:
+		set_position(_initial_pos + (event.position - _initial_mouse))
+	
+	if Input.is_action_just_released("left_click"):
+		_is_moving = false
+		_initial_pos = Vector2.ZERO
+
+
+func _on_click_time_timeout() -> void:
+	_first_click = false
+
+
+func _on_icon_mouse_entered() -> void:
+	_is_mouse_inside = true
+
+
+func _on_icon_mouse_exited() -> void:
+	_is_mouse_inside = false
+
+
+func _on_icon_focus_entered() -> void:
+	_is_focused = true
+
+func _on_icon_focus_exited() -> void:
+	_is_focused = false
