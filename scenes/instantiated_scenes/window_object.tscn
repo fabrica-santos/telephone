@@ -5,14 +5,13 @@
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="2_kusyo"]
 
 [node name="WindowObject" type="Control"]
-z_as_relative = false
 texture_filter = 1
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_2hvvx")
 
 [node name="Panel" type="Panel" parent="."]
@@ -25,7 +24,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
-mouse_filter = 2
+mouse_filter = 1
 
 [node name="WindowContents" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
@@ -75,28 +74,30 @@ theme_override_constants/margin_right = 3
 [node name="Header" type="HBoxContainer" parent="Panel/WindowContents/Header/HeaderArea"]
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 2
+mouse_filter = 0
 alignment = 2
 
 [node name="MinBtn" type="TextureButton" parent="Panel/WindowContents/Header/HeaderArea/Header"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 texture_normal = ExtResource("1_l3hhq")
 
 [node name="WindBtn" type="TextureButton" parent="Panel/WindowContents/Header/HeaderArea/Header"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 texture_normal = ExtResource("1_l3hhq")
 
 [node name="CloseBtn" type="TextureButton" parent="Panel/WindowContents/Header/HeaderArea/Header"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 texture_normal = ExtResource("1_l3hhq")
 
 [node name="CanvasMargin" type="MarginContainer" parent="Panel/WindowContents"]
 layout_mode = 2
 size_flags_vertical = 3
-mouse_filter = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
@@ -104,7 +105,7 @@ theme_override_constants/margin_bottom = 3
 [node name="WindowCanvas" type="Control" parent="Panel/WindowContents/CanvasMargin"]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 2
+mouse_filter = 1
 
 [connection signal="focus_entered" from="Panel" to="." method="_on_panel_focus_entered"]
 [connection signal="focus_exited" from="Panel" to="." method="_on_panel_focus_exited"]

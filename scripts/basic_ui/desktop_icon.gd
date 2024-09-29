@@ -18,7 +18,7 @@ var _initial_size: Vector2
 var _is_moving: bool = false
 var _first_click: bool = false
 var _is_mouse_inside: bool = false
-var _is_focused = false
+var _focused = false
 
 
 func _ready() -> void:
@@ -34,7 +34,7 @@ func _input(event) -> void:
 	var _window_rect: Rect2 = get_global_rect()
 	var _local_mouse_pos: Vector2 = get_global_mouse_position() - get_global_position()
 
-	if Input.is_action_just_pressed("left_click") && _is_mouse_inside && _is_focused:
+	if Input.is_action_just_pressed("left_click") && _is_mouse_inside && _focused:
 		_initial_mouse = event.position
 		_initial_pos = get_global_position()
 		_is_moving = true
@@ -68,7 +68,7 @@ func _on_icon_mouse_exited() -> void:
 
 
 func _on_icon_focus_entered() -> void:
-	_is_focused = true
+	_focused = true
 
 func _on_icon_focus_exited() -> void:
-	_is_focused = false
+	_focused = false

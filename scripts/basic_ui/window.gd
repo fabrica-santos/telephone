@@ -63,19 +63,19 @@ func _ready():
 		window_canvas.add_child(content_instance)
 		
 	set_size(start_size)
-	z_index = -1
+	#z_index = -1
 
 
-func _input(event) -> void:
+func _gui_input(event) -> void:
 	var _window_rect: Rect2 = get_global_rect()
-	var _local_mouse_pos: Vector2 = get_global_mouse_position() - get_global_position()
-
+	var _local_mouse_pos: Vector2 = event.position - get_global_position()
+	print(_resizing)
 	if Input.is_action_just_pressed("left_click"):
 		
 		if _mouse_on_header:
 			
 			if draggable && _focused:
-				_initial_mouse = event.position
+				_initial_mouse = get_global_mouse_position()
 				_initial_pos = get_global_position()
 				
 				if is_maximized:
@@ -83,7 +83,7 @@ func _input(event) -> void:
 					set_position(_initial_pos + (event.position - _initial_mouse))
 					set_global_position(Vector2(event.position.x - get_size().x / 2.0, get_position().y))
 					#set_position(_initial_pos + (event.position - _initial_mouse))
-					_initial_mouse = event.position
+					_initial_mouse = get_global_mouse_position()
 					_initial_pos = get_global_position()
 					is_maximized = false
 				
@@ -124,7 +124,8 @@ func _input(event) -> void:
 	if Input.is_action_pressed("left_click") && _focused:
 		
 		if _is_moving:
-			set_position(_initial_pos + (event.position - _initial_mouse))
+			set_position(_initial_pos + (get_global_mouse_position() - _initial_mouse))
+
 		
 		if _is_resizing:
 			var _new_size: Vector2 = Vector2(get_size().x, get_size().y)
@@ -181,16 +182,21 @@ func toggle_maximize():
 
 func _on_header_mouse_entered() -> void:
 	_mouse_on_header = true
+	print("WINDOW_HEADER_ENTERED")
 
 
 func _on_header_mouse_exited() -> void:
 	_mouse_on_header = false
+	print("WINDOW_HEADER_EXITED")
+	
 
 
 func _on_panel_focus_entered() -> void:
 	_focused = true
 	window_canvas.set_process_input(_focused)
-	z_index = int(_focused) - 1
+	#z_index = int(_focused) - 1
+	get_parent().move_child(self, get_parent().get_child_count())
+	print("WINDOW_FOCUSED")
 
 
 func _on_panel_focus_exited() -> void:
@@ -199,7 +205,8 @@ func _on_panel_focus_exited() -> void:
 	_is_resizing = false
 	_resizing = Vector2(false, false)
 	window_canvas.set_process_input(_focused)
-	z_index = int(_focused) - 1
+	#z_index = int(_focused) - 1
+	print("WINDOW_UNFOCUSED")
 
 
 func _on_wind_btn_up() -> void:
@@ -207,7 +214,6 @@ func _on_wind_btn_up() -> void:
 
 
 func _on_close_btn_button_up() -> void:
-	
 	if destroy_if_closed:
 		queue_free()
 	

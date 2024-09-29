@@ -36,23 +36,40 @@ split_offset = 1000
 metadata/_edit_use_anchors_ = true
 
 [node name="Desktop" type="Control" parent="DesktopTaskbar/DesktopSplit"]
+z_as_relative = false
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
 
 [node name="DesktopBG" type="TextureRect" parent="DesktopTaskbar/DesktopSplit/Desktop"]
 z_index = -3
+z_as_relative = false
 layout_mode = 1
 offset_right = 800.0
 offset_bottom = 600.0
 texture = ExtResource("2_v6khr")
 
-[node name="DesktopIcon" parent="DesktopTaskbar/DesktopSplit/Desktop" instance=ExtResource("2_mf33d")]
-z_index = -2
+[node name="FolderLayer" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
+z_as_relative = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="DesktopIcon" parent="DesktopTaskbar/DesktopSplit/Desktop/FolderLayer" instance=ExtResource("2_mf33d")]
+z_as_relative = false
 application = "dinossaur"
 
-[node name="WindowObject" parent="DesktopTaskbar/DesktopSplit/Desktop" instance=ExtResource("2_sbog5")]
-z_index = -1
+[node name="WindowLayer" type="Control" parent="DesktopTaskbar/DesktopSplit/Desktop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="WindowObject" parent="DesktopTaskbar/DesktopSplit/Desktop/WindowLayer" instance=ExtResource("2_sbog5")]
 layout_mode = 1
 offset_left = 213.0
 offset_top = 181.0
@@ -61,8 +78,7 @@ offset_bottom = 281.0
 window_name = "Test"
 window_icon = ExtResource("4_qhq60")
 
-[node name="WindowObject2" parent="DesktopTaskbar/DesktopSplit/Desktop" instance=ExtResource("2_sbog5")]
-z_index = -1
+[node name="WindowObject2" parent="DesktopTaskbar/DesktopSplit/Desktop/WindowLayer" instance=ExtResource("2_sbog5")]
 offset_left = 497.0
 offset_top = 138.0
 offset_right = 597.0
@@ -70,15 +86,13 @@ offset_bottom = 238.0
 window_content = ExtResource("4_is7l7")
 start_size = Vector2(300, 250)
 
-[node name="WindowObject3" parent="DesktopTaskbar/DesktopSplit/Desktop" instance=ExtResource("2_sbog5")]
-z_index = -1
+[node name="WindowObject3" parent="DesktopTaskbar/DesktopSplit/Desktop/WindowLayer" instance=ExtResource("2_sbog5")]
 offset_left = 419.0
 offset_top = 340.0
 offset_right = 519.0
 offset_bottom = 440.0
 
-[node name="WindowObject4" parent="DesktopTaskbar/DesktopSplit/Desktop" instance=ExtResource("2_sbog5")]
-z_index = -1
+[node name="WindowObject4" parent="DesktopTaskbar/DesktopSplit/Desktop/WindowLayer" instance=ExtResource("2_sbog5")]
 offset_left = 100.0
 offset_top = 357.0
 offset_right = 200.0
