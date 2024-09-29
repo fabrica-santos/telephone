@@ -1,6 +1,6 @@
 extends Control
 
-const RESIZE_BORDER_SIZE = 4
+const RESIZE_BORDER_SIZE = 5
 
 @export_category("General Properties")
 @export var window_content: PackedScene
@@ -68,7 +68,7 @@ func _ready():
 
 func _gui_input(event) -> void:
 	var _window_rect: Rect2 = get_global_rect()
-	var _local_mouse_pos: Vector2 = event.position - get_global_position()
+	var _local_mouse_pos: Vector2 = get_global_mouse_position() - get_global_position()
 	print(_resizing)
 	if Input.is_action_just_pressed("left_click"):
 		
@@ -113,13 +113,6 @@ func _gui_input(event) -> void:
 					_initial_size.y = get_size().y
 					_is_resizing = true
 					_resizing.y = true
-					
-				if _local_mouse_pos.y < RESIZE_BORDER_SIZE && _local_mouse_pos.y > -RESIZE_BORDER_SIZE:
-					_initial_mouse.y = event.position.y
-					_initial_size.y = get_size().y
-					_initial_pos.y = get_global_position().y
-					_is_resizing = true
-					_resizing.y = true
 		
 	if Input.is_action_pressed("left_click") && _focused:
 		
@@ -148,7 +141,6 @@ func _gui_input(event) -> void:
 			
 				if _initial_pos.y != 0:
 					_new_size.y = _initial_size.y + (_initial_mouse.y - event.position.y)
-					set_position(Vector2(get_position().x, _initial_pos.y - (_new_size.y - _initial_size.y)))
 			
 			set_size(Vector2(clamp(_new_size.x, min_size.x, max_size.x), clamp(_new_size.y, min_size.y, max_size.y)))
 				
