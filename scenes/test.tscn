@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvd4wrlwbvm5j"]
+[gd_scene load_steps=8 format=3 uid="uid://cvd4wrlwbvm5j"]
 
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="1_yax8y"]
+[ext_resource type="Script" path="res://scripts/basic_ui/dekstop.gd" id="2_brioo"]
 [ext_resource type="PackedScene" uid="uid://dvnrdp6inypyc" path="res://scenes/instantiated_scenes/desktop_icon.tscn" id="2_mf33d"]
 [ext_resource type="PackedScene" uid="uid://e8j4flhicau5" path="res://scenes/instantiated_scenes/window_object.tscn" id="2_sbog5"]
 [ext_resource type="Texture2D" uid="uid://cp1nu8os2tqnt" path="res://assets/wallpaper/6.png" id="2_v6khr"]
@@ -17,6 +18,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_yax8y")
+script = ExtResource("2_brioo")
 
 [node name="DesktopTaskbar" type="VBoxContainer" parent="."]
 layout_mode = 1
