@@ -1,11 +1,12 @@
 extends Control
 class_name Desktop
 
-# Called when the node enters the scene tree for the first time.
+@onready var window_layer: Control = %WindowLayer
+
+
 func _ready() -> void:
-	pass # Replace with function body.
+	Global.window_layer = window_layer
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
