@@ -10,8 +10,9 @@ const RESIZE_BORDER_SIZE = 5
 @export var can_close: bool = true
 @export var is_maximized: bool = false
 @export var main_focus: bool = false
-@export var destroy_if_closed: = true
-@export var show_on_taskbar: = false
+@export var destroy_if_closed: bool = true
+@export var show_on_taskbar: bool = false
+@export var has_inner_frame: bool = true
 @export_category("Header Properties")
 @export var window_name: String = ""
 @export var window_icon: CompressedTexture2D
@@ -33,16 +34,21 @@ var _resizing: Vector2 = Vector2(false, false)
 var _is_resizing: bool = false
 var _original_window_size: Vector2
 var _original_window_pos: Vector2
+var _minimize_tex_array: Array = ["res://assets/basic_ui/mini_icon/max_btn.png", "res://assets/basic_ui/mini_icon/wind_btn.png"]
+var _inside_canvas: bool = false
 
 @onready var window_canvas: Control = %WindowCanvas
-@onready var min_btn: TextureButton = %MinBtn
-@onready var wind_btn: TextureButton = %WindBtn
-@onready var close_btn: TextureButton = %CloseBtn
+@onready var min_btn: Button = %MinBtn
+@onready var wind_btn: Button = %WindBtn
+@onready var close_btn: Button = %CloseBtn
 @onready var window_label: Label = %WindowName
 @onready var icon_texture: TextureRect = %WindowIcon
+@onready var inner_frame: Panel = %InnerFrame
+@onready var header_bg: ColorRect = %HeaderBG
 
 
 func _ready():
+	grab_click_focus()
 	min_btn.visible = can_minimize
 	min_btn.disabled = !can_minimize
 	wind_btn.visible = can_window
@@ -61,7 +67,11 @@ func _ready():
 	if window_content != null:
 		var content_instance: Node = window_content.instantiate()
 		window_canvas.add_child(content_instance)
-		
+	
+	if !has_inner_frame:
+		inner_frame.visible = false
+		inner_frame.get_parent().get_child(1).remove_theme_constant_override("margin")
+	
 	set_size(start_size)
 
 
@@ -70,6 +80,9 @@ func _gui_input(event) -> void:
 	var _local_mouse_pos: Vector2 = get_global_mouse_position() - get_global_position()
 
 	if Input.is_action_just_pressed("left_click"):
+		
+		if _inside_canvas:
+			grab_focus()
 		
 		if _mouse_on_header:
 			
@@ -111,12 +124,19 @@ func _gui_input(event) -> void:
 					_initial_size.y = get_size().y
 					_is_resizing = true
 					_resizing.y = true
+					
+				if _local_mouse_pos.y < RESIZE_BORDER_SIZE && _local_mouse_pos.y > -RESIZE_BORDER_SIZE:
+					_initial_mouse.y = event.position.y
+					_initial_size.y = get_size().y
+					_initial_pos.y = get_global_position().y
+					_is_resizing = true
+					_resizing.y = true
 		
 	if Input.is_action_pressed("left_click") && _focused:
 		
 		if _is_moving:
-			set_position(_initial_pos + (get_global_mouse_position() - _initial_mouse))
-
+			var new_position: Vector2 = _initial_pos + (get_global_mouse_position() - _initial_mouse)
+			set_position(Vector2(clamp(new_position.x, 0.0, 800.0 - get_size().x), clamp(new_position.y, 0.0, 600.0 - get_size().y)))
 		
 		if _is_resizing:
 			var _new_size: Vector2 = Vector2(get_size().x, get_size().y)
@@ -139,6 +159,7 @@ func _gui_input(event) -> void:
 			
 				if _initial_pos.y != 0:
 					_new_size.y = _initial_size.y + (_initial_mouse.y - event.position.y)
+					set_position(Vector2(get_position().x, _initial_pos.y - (_new_size.y - _initial_size.y)))
 			
 			set_size(Vector2(clamp(_new_size.x, min_size.x, max_size.x), clamp(_new_size.y, min_size.y, max_size.y)))
 				
@@ -147,9 +168,12 @@ func _gui_input(event) -> void:
 		_initial_pos = Vector2.ZERO
 		_is_resizing = false
 		_resizing = Vector2(false, false)
+		
+		if get_global_position().y == 0.0:
+				toggle_maximize()
 
-	if event.is_action("double_click", true) && _mouse_on_header && !is_maximized && can_window && event.is_double_click():
-		toggle_maximize()
+	#if event.is_action("double_click", true) && _mouse_on_header && !is_maximized && can_window && event.is_double_click():
+		#toggle_maximize()
 		
 
 
@@ -172,6 +196,7 @@ func toggle_maximize():
 		set_size(_original_window_size)
 		set_position(_original_window_pos)
 		is_maximized = false
+	wind_btn.get_child(0).texture = load(_minimize_tex_array[int(is_maximized)])
 
 
 func _on_header_mouse_entered() -> void:
@@ -188,6 +213,7 @@ func _on_panel_focus_entered() -> void:
 	_focused = true
 	window_canvas.set_process_input(_focused)
 	get_parent().move_child(self, get_parent().get_child_count())
+	header_bg.color = Color(0.0, 0.0, 0.5)
 	#print("WINDOW_FOCUSED")
 
 
@@ -197,6 +223,7 @@ func _on_panel_focus_exited() -> void:
 	_is_resizing = false
 	_resizing = Vector2(false, false)
 	window_canvas.set_process_input(_focused)
+	header_bg.color = Color(0.5, 0.5, 0.5)
 	#print("WINDOW_UNFOCUSED")
 
 

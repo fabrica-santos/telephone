@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck83rnvn8ru6b"
-path="res://.godot/imported/10.png-eb5af87c5e41b8181df792cd5e450dd5.ctex"
+uid="uid://s58v3c2ow2qd"
+path="res://.godot/imported/innerframe_inverted.png-d4aac244f3ec5b285d8f6040cd8aed61.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/wallpaper/10.png"
-dest_files=["res://.godot/imported/10.png-eb5af87c5e41b8181df792cd5e450dd5.ctex"]
+source_file="res://assets/basic_ui/innerframe_inverted.png"
+dest_files=["res://.godot/imported/innerframe_inverted.png-d4aac244f3ec5b285d8f6040cd8aed61.ctex"]
 
 [params]
 

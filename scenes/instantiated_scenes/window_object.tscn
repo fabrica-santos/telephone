@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://e8j4flhicau5"]
+[gd_scene load_steps=8 format=3 uid="uid://e8j4flhicau5"]
 
 [ext_resource type="Script" path="res://scripts/basic_ui/window.gd" id="1_2hvvx"]
-[ext_resource type="Texture2D" uid="uid://dmnmblvm814jf" path="res://assets/basic_ui/placeholder/close.png" id="1_l3hhq"]
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="2_kusyo"]
+[ext_resource type="Texture2D" uid="uid://csr34sde6d48v" path="res://assets/basic_ui/mini_icon/cross.png" id="3_dgu0t"]
+[ext_resource type="Texture2D" uid="uid://djm0eu3q7vxdp" path="res://assets/basic_ui/mini_icon/min_btn.png" id="3_gcfac"]
+[ext_resource type="FontFile" uid="uid://du7jvc3dyg7mo" path="res://assets/ui/font/arial.ttf" id="3_q7obr"]
+[ext_resource type="StyleBox" uid="uid://bku1e4qf4s4ca" path="res://assets/themes/innerframe_inverted.tres" id="4_rg2y1"]
+[ext_resource type="Texture2D" uid="uid://djvaxkccujjx5" path="res://assets/basic_ui/mini_icon/max_btn.png" id="4_trw2g"]
 
 [node name="WindowObject" type="Control"]
 texture_filter = 1
@@ -25,6 +29,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 mouse_filter = 1
+theme = ExtResource("2_kusyo")
 
 [node name="WindowContents" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
@@ -34,81 +39,154 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Header" type="HBoxContainer" parent="Panel/WindowContents"]
+[node name="HeaderMargin" type="MarginContainer" parent="Panel/WindowContents"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+
+[node name="HeaderBG" type="ColorRect" parent="Panel/WindowContents/HeaderMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+color = Color(0, 0, 0.498039, 1)
+
+[node name="Header" type="HBoxContainer" parent="Panel/WindowContents/HeaderMargin"]
 layout_mode = 2
 
-[node name="Title" type="HBoxContainer" parent="Panel/WindowContents/Header"]
+[node name="Title" type="HBoxContainer" parent="Panel/WindowContents/HeaderMargin/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="IconContainer" type="MarginContainer" parent="Panel/WindowContents/Header/Title"]
+[node name="IconContainer" type="MarginContainer" parent="Panel/WindowContents/HeaderMargin/Header/Title"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="WindowIcon" type="TextureRect" parent="Panel/WindowContents/Header/Title/IconContainer"]
+[node name="WindowIcon" type="TextureRect" parent="Panel/WindowContents/HeaderMargin/Header/Title/IconContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 stretch_mode = 2
 
-[node name="TitleContainer" type="MarginContainer" parent="Panel/WindowContents/Header/Title"]
+[node name="TitleContainer" type="MarginContainer" parent="Panel/WindowContents/HeaderMargin/Header/Title"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 0
 
-[node name="WindowName" type="Label" parent="Panel/WindowContents/Header/Title/TitleContainer"]
+[node name="WindowName" type="Label" parent="Panel/WindowContents/HeaderMargin/Header/Title/TitleContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme = ExtResource("2_kusyo")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_q7obr")
+vertical_alignment = 1
+autowrap_mode = 1
+text_overrun_behavior = 3
 
-[node name="HeaderArea" type="MarginContainer" parent="Panel/WindowContents/Header"]
+[node name="HeaderArea" type="MarginContainer" parent="Panel/WindowContents/HeaderMargin/Header"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/margin_top = 3
+theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
 
-[node name="Header" type="HBoxContainer" parent="Panel/WindowContents/Header/HeaderArea"]
+[node name="Header" type="HBoxContainer" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea"]
 layout_mode = 2
-size_flags_horizontal = 3
 mouse_filter = 0
+theme_override_constants/separation = 0
 alignment = 2
 
-[node name="MinBtn" type="TextureButton" parent="Panel/WindowContents/Header/HeaderArea/Header"]
+[node name="MinBtn" type="Button" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
 mouse_filter = 1
-texture_normal = ExtResource("1_l3hhq")
 
-[node name="WindBtn" type="TextureButton" parent="Panel/WindowContents/Header/HeaderArea/Header"]
-unique_name_in_owner = true
-layout_mode = 2
-mouse_filter = 1
-texture_normal = ExtResource("1_l3hhq")
+[node name="TextureRect" type="TextureRect" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header/MinBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1, 1)
+mouse_filter = 2
+texture = ExtResource("3_gcfac")
 
-[node name="CloseBtn" type="TextureButton" parent="Panel/WindowContents/Header/HeaderArea/Header"]
+[node name="WindBtn" type="Button" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
 mouse_filter = 1
-texture_normal = ExtResource("1_l3hhq")
+
+[node name="TextureRect" type="TextureRect" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header/WindBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1, 1)
+mouse_filter = 2
+texture = ExtResource("4_trw2g")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header"]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_right = 1
+
+[node name="CloseBtn" type="Button" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="TextureRect" type="TextureRect" parent="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header/CloseBtn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1, 1)
+mouse_filter = 2
+texture = ExtResource("3_dgu0t")
 
 [node name="CanvasMargin" type="MarginContainer" parent="Panel/WindowContents"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+focus_mode = 1
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = -1
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
 
-[node name="WindowCanvas" type="Control" parent="Panel/WindowContents/CanvasMargin"]
+[node name="InnerFrame" type="Panel" parent="Panel/WindowContents/CanvasMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_styles/panel = ExtResource("4_rg2y1")
+
+[node name="InnerCanvasMargin" type="MarginContainer" parent="Panel/WindowContents/CanvasMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="WindowCanvas" type="Control" parent="Panel/WindowContents/CanvasMargin/InnerCanvasMargin"]
 unique_name_in_owner = true
 layout_mode = 2
 
 [connection signal="focus_entered" from="Panel" to="." method="_on_panel_focus_entered"]
 [connection signal="focus_exited" from="Panel" to="." method="_on_panel_focus_exited"]
-[connection signal="mouse_entered" from="Panel/WindowContents/Header" to="." method="_on_header_mouse_entered"]
-[connection signal="mouse_exited" from="Panel/WindowContents/Header" to="." method="_on_header_mouse_exited"]
-[connection signal="button_up" from="Panel/WindowContents/Header/HeaderArea/Header/WindBtn" to="." method="_on_wind_btn_up"]
-[connection signal="button_up" from="Panel/WindowContents/Header/HeaderArea/Header/CloseBtn" to="." method="_on_close_btn_button_up"]
+[connection signal="mouse_entered" from="Panel/WindowContents/HeaderMargin/Header" to="." method="_on_header_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/WindowContents/HeaderMargin/Header" to="." method="_on_header_mouse_exited"]
+[connection signal="button_up" from="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header/WindBtn" to="." method="_on_wind_btn_up"]
+[connection signal="button_up" from="Panel/WindowContents/HeaderMargin/Header/HeaderArea/Header/CloseBtn" to="." method="_on_close_btn_button_up"]

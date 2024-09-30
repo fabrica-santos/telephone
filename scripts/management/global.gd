@@ -4,7 +4,7 @@ extends Node
 var app_database: Dictionary = {
 	"dinossaur": {
 		"icon": "dino.png",
-		"name": "Dinossaur Game",
+		"name": "Capybara Game",
 		"scene_file": "res://scenes/apps/games/dinossaur.tscn",
 		"wind_size": Vector2(300,250),
 		"wind_min": Vector2(100,100),
@@ -18,6 +18,7 @@ var app_database: Dictionary = {
 		"task_bar": true,
 		"destroy": true,
 		"main_focus": false,
+		"inner_frame": true,
 	}
 }
 var big_icon_dir: String = "res://assets/basic_ui/placeholder/big_icon/"
@@ -35,10 +36,10 @@ func _process(delta: float) -> void:
 
 
 func open_application(app_name: String = ""):
-	create_window(Global.app_database[app_name]["scene_file"], Global.app_database[app_name]["icon"], Global.app_database[app_name]["name"], Vector2(250.0, 250.0), Global.app_database[app_name]["drag"], Global.app_database[app_name]["resize_w"], Global.app_database[app_name]["resize_h"], Global.app_database[app_name]["main_focus"], Global.app_database[app_name]["can_min"], Global.app_database[app_name]["can_wind"], Global.app_database[app_name]["can_close"], Global.app_database[app_name]["task_bar"], Global.app_database[app_name]["wind_size"], Global.app_database[app_name]["wind_min"], Global.app_database[app_name]["wind_max"], Global.app_database[app_name]["destroy"])
+	create_window(Global.app_database[app_name]["scene_file"], Global.app_database[app_name]["icon"], Global.app_database[app_name]["name"], Vector2(250.0, 250.0), Global.app_database[app_name]["drag"], Global.app_database[app_name]["resize_w"], Global.app_database[app_name]["resize_h"], Global.app_database[app_name]["main_focus"], Global.app_database[app_name]["can_min"], Global.app_database[app_name]["can_wind"], Global.app_database[app_name]["can_close"], Global.app_database[app_name]["task_bar"], Global.app_database[app_name]["wind_size"], Global.app_database[app_name]["wind_min"], Global.app_database[app_name]["wind_max"], Global.app_database[app_name]["destroy"],  Global.app_database[app_name]["inner_frame"])
 
 
-func create_window(window_content: String, icon: String = "", title: String = "", position: Vector2 = Vector2(250.0, 250.0), drag: bool = true, resize_w: bool = true, resize_h: bool = true, main_focus: bool = false, can_min: bool = true, can_wind: bool = true, can_close: bool = true, task_bar: bool = true, size: Vector2 = Vector2(100.0, 100.0), min_size: Vector2 = Vector2(100.0, 100.0), max_size: Vector2 = Vector2(800.0, 600.0), destroy: bool = true):
+func create_window(window_content: String, icon: String = "", title: String = "", position: Vector2 = Vector2(250.0, 250.0), drag: bool = true, resize_w: bool = true, resize_h: bool = true, main_focus: bool = false, can_min: bool = true, can_wind: bool = true, can_close: bool = true, task_bar: bool = true, size: Vector2 = Vector2(100.0, 100.0), min_size: Vector2 = Vector2(100.0, 100.0), max_size: Vector2 = Vector2(800.0, 600.0), destroy: bool = true, inner_frame: bool = true):
 	var window_instance = window_scene.instantiate()
 	window_instance.window_icon = load(Global.small_icon_dir+icon)
 	window_instance.window_name = title
@@ -56,4 +57,5 @@ func create_window(window_content: String, icon: String = "", title: String = ""
 	window_instance.min_size = min_size
 	window_instance.max_size = max_size
 	window_instance.destroy_if_closed = destroy
+	window_instance.has_inner_frame = inner_frame
 	window_layer.add_child(window_instance)
