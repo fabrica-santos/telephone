@@ -35,11 +35,14 @@ func _input(event) -> void:
 	var _window_rect: Rect2 = get_global_rect()
 	var _local_mouse_pos: Vector2 = get_global_mouse_position() - get_global_position()
 
-	if Input.is_action_just_pressed("left_click") && _focused:
+	if Input.is_action_just_pressed("left_click"):
 		if _is_mouse_inside:
-			_initial_mouse = event.position
-			_initial_pos = get_global_position()
-			_is_moving = true
+			if _focused:
+				_initial_mouse = event.position
+				_initial_pos = get_global_position()
+				_is_moving = true
+			else:
+				_on_icon_focus_entered()
 		else:
 			_on_icon_focus_exited()
 	

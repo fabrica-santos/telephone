@@ -6,7 +6,7 @@ var app_database: Dictionary = {
 		"icon": "dino.png",
 		"name": "Dinossaur Game",
 		"scene_file": "res://scenes/apps/games/dinossaur.tscn",
-		"wind_size": Vector2(200,300),
+		"wind_size": Vector2(300,250),
 		"wind_min": Vector2(100,100),
 		"wind_max": Vector2(400,400),
 		"drag": true,
@@ -25,6 +25,9 @@ var mid_icon_dir: String = ""
 var small_icon_dir: String = "res://assets/basic_ui/placeholder/small_icon/"
 
 var window_scene = load("res://scenes/instantiated_scenes/window_object.tscn")
+
+#NODES
+var window_layer: Node = null
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -53,4 +56,4 @@ func create_window(window_content: String, icon: String = "", title: String = ""
 	window_instance.min_size = min_size
 	window_instance.max_size = max_size
 	window_instance.destroy_if_closed = destroy
-	#Desktop.add_child(window_instance)
+	window_layer.add_child(window_instance)
