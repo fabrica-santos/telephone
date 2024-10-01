@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="2_kusyo"]
 [ext_resource type="Texture2D" uid="uid://csr34sde6d48v" path="res://assets/basic_ui/mini_icon/cross.png" id="3_dgu0t"]
 [ext_resource type="Texture2D" uid="uid://djm0eu3q7vxdp" path="res://assets/basic_ui/mini_icon/min_btn.png" id="3_gcfac"]
-[ext_resource type="FontFile" uid="uid://du7jvc3dyg7mo" path="res://assets/ui/font/arial.ttf" id="3_q7obr"]
+[ext_resource type="FontFile" uid="uid://cuutod20jjcxx" path="res://assets/ui/font/BIOSfontII.ttf" id="3_lt4b1"]
 [ext_resource type="StyleBox" uid="uid://bku1e4qf4s4ca" path="res://assets/themes/innerframe_inverted.tres" id="4_rg2y1"]
 [ext_resource type="Texture2D" uid="uid://djvaxkccujjx5" path="res://assets/basic_ui/mini_icon/max_btn.png" id="4_trw2g"]
 
@@ -101,7 +101,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 theme = ExtResource("2_kusyo")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_q7obr")
+theme_override_fonts/font = ExtResource("3_lt4b1")
+theme_override_font_sizes/font_size = 16
 vertical_alignment = 1
 autowrap_mode = 1
 text_overrun_behavior = 3

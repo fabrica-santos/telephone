@@ -4,7 +4,7 @@ extends Node
 var app_database: Dictionary = {
 	"dinossaur": {
 		"icon": "dino.png",
-		"name": "Capybara Game",
+		"name": "Capivarinha",
 		"scene_file": "res://scenes/apps/games/dinossaur.tscn",
 		"wind_size": Vector2(300,250),
 		"wind_min": Vector2(100,100),
@@ -19,27 +19,30 @@ var app_database: Dictionary = {
 		"destroy": true,
 		"main_focus": false,
 		"inner_frame": true,
+		"is_malware": false,
 	}
 }
 var big_icon_dir: String = "res://assets/basic_ui/placeholder/big_icon/"
 var mid_icon_dir: String = ""
 var small_icon_dir: String = "res://assets/basic_ui/placeholder/small_icon/"
 
-var window_scene = load("res://scenes/instantiated_scenes/window_object.tscn")
+var window_scene = load("res://scenes/instantiated_scenes/ui/window_object.tscn")
 
 #NODES
 var window_layer: Node = null
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 
-func open_application(app_name: String = ""):
-	create_window(Global.app_database[app_name]["scene_file"], Global.app_database[app_name]["icon"], Global.app_database[app_name]["name"], Vector2(250.0, 250.0), Global.app_database[app_name]["drag"], Global.app_database[app_name]["resize_w"], Global.app_database[app_name]["resize_h"], Global.app_database[app_name]["main_focus"], Global.app_database[app_name]["can_min"], Global.app_database[app_name]["can_wind"], Global.app_database[app_name]["can_close"], Global.app_database[app_name]["task_bar"], Global.app_database[app_name]["wind_size"], Global.app_database[app_name]["wind_min"], Global.app_database[app_name]["wind_max"], Global.app_database[app_name]["destroy"],  Global.app_database[app_name]["inner_frame"])
+func open_application(app_name: String = "") -> void:
+	create_window(Global.app_database[app_name]["scene_file"], Global.app_database[app_name]["icon"], Global.app_database[app_name]["name"], Vector2(250.0, 250.0), Global.app_database[app_name]["drag"], Global.app_database[app_name]["resize_w"], Global.app_database[app_name]["resize_h"], Global.app_database[app_name]["main_focus"], Global.app_database[app_name]["can_min"], Global.app_database[app_name]["can_wind"], Global.app_database[app_name]["can_close"], Global.app_database[app_name]["task_bar"], Global.app_database[app_name]["wind_size"], Global.app_database[app_name]["wind_min"], Global.app_database[app_name]["wind_max"], Global.app_database[app_name]["destroy"], Global.app_database[app_name]["inner_frame"],  Global.app_database[app_name]["is_malware"])
 
+#func start_malware():
 
-func create_window(window_content: String, icon: String = "", title: String = "", position: Vector2 = Vector2(250.0, 250.0), drag: bool = true, resize_w: bool = true, resize_h: bool = true, main_focus: bool = false, can_min: bool = true, can_wind: bool = true, can_close: bool = true, task_bar: bool = true, size: Vector2 = Vector2(100.0, 100.0), min_size: Vector2 = Vector2(100.0, 100.0), max_size: Vector2 = Vector2(800.0, 600.0), destroy: bool = true, inner_frame: bool = true):
+func create_window(window_content: String, icon: String = "", title: String = "", position: Vector2 = Vector2(250.0, 250.0), drag: bool = true, resize_w: bool = true, resize_h: bool = true, main_focus: bool = false, can_min: bool = true, can_wind: bool = true, can_close: bool = true, task_bar: bool = true, size: Vector2 = Vector2(100.0, 100.0), min_size: Vector2 = Vector2(100.0, 100.0), max_size: Vector2 = Vector2(800.0, 600.0), destroy: bool = true, inner_frame: bool = true, is_malware: bool = false) -> void:
 	var window_instance = window_scene.instantiate()
 	window_instance.window_icon = load(Global.small_icon_dir+icon)
 	window_instance.window_name = title

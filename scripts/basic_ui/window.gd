@@ -13,6 +13,7 @@ const RESIZE_BORDER_SIZE = 5
 @export var destroy_if_closed: bool = true
 @export var show_on_taskbar: bool = false
 @export var has_inner_frame: bool = true
+@export var is_malware: bool = false
 @export_category("Header Properties")
 @export var window_name: String = ""
 @export var window_icon: CompressedTexture2D
@@ -49,8 +50,8 @@ var _outside_popup: bool = false
 @onready var prevent_click: Container = %PreventClick
 
 
-
 func _ready():
+	win_panel.grab_focus()
 	grab_click_focus()
 	min_btn.visible = can_minimize
 	min_btn.disabled = !can_minimize

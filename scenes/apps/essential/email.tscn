@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://1ivy8l8hak37"]
+[gd_scene load_steps=5 format=3 uid="uid://1ivy8l8hak37"]
 
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="1_v3ft0"]
 [ext_resource type="StyleBox" uid="uid://bixqyv1ws0khs" path="res://assets/themes/textfield_basic.tres" id="2_3hnxf"]
+[ext_resource type="PackedScene" uid="uid://8302snngm6vq" path="res://scenes/instantiated_scenes/web/ad.tscn" id="2_e31fb"]
+[ext_resource type="FontFile" uid="uid://cuutod20jjcxx" path="res://assets/ui/font/BIOSfontII.ttf" id="2_ln1po"]
 
 [node name="Phone" type="Control"]
 texture_filter = 1
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +29,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.831373, 0.815686, 0.784314, 1)
 
-[node name="EmailContainer" type="VBoxContainer" parent="."]
+[node name="MainScroll" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,36 +37,70 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HeaderExtraMargin" type="MarginContainer" parent="EmailContainer"]
+[node name="EmailContainer" type="VBoxContainer" parent="MainScroll"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="AdMargin" type="MarginContainer" parent="MainScroll/EmailContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="YourInbox" type="Label" parent="EmailContainer/HeaderExtraMargin"]
+[node name="Ad" parent="MainScroll/EmailContainer/AdMargin" instance=ExtResource("2_e31fb")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Your Inbox:"
+ad_type = 1
 
-[node name="InboxMargin" type="MarginContainer" parent="EmailContainer"]
+[node name="HeaderExtraMargin" type="MarginContainer" parent="MainScroll/EmailContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="YourInbox" type="Label" parent="MainScroll/EmailContainer/HeaderExtraMargin"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ln1po")
+theme_override_font_sizes/font_size = 16
+text = "Sua Caixa de Entrada:"
+
+[node name="InboxContainer" type="HBoxContainer" parent="MainScroll/EmailContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AdMargin" type="MarginContainer" parent="MainScroll/EmailContainer/InboxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Ad" parent="MainScroll/EmailContainer/InboxContainer/AdMargin" instance=ExtResource("2_e31fb")]
+layout_mode = 2
+ad_type = 2
+
+[node name="InboxMargin" type="MarginContainer" parent="MainScroll/EmailContainer/InboxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="InboxContent" type="Panel" parent="EmailContainer/InboxMargin"]
+[node name="InboxContent" type="Panel" parent="MainScroll/EmailContainer/InboxContainer/InboxMargin"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_3hnxf")
 
-[node name="VBoxContainer" type="ScrollContainer" parent="EmailContainer/InboxMargin"]
+[node name="VBoxContainer" type="ScrollContainer" parent="MainScroll/EmailContainer/InboxContainer/InboxMargin"]
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="ButtonMargin" type="MarginContainer" parent="EmailContainer/InboxMargin/VBoxContainer"]
+[node name="ButtonMargin" type="MarginContainer" parent="MainScroll/EmailContainer/InboxContainer/InboxMargin/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
@@ -71,12 +108,12 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Button" type="Button" parent="EmailContainer/InboxMargin/VBoxContainer/ButtonMargin"]
+[node name="Button" type="Button" parent="MainScroll/EmailContainer/InboxContainer/InboxMargin/VBoxContainer/ButtonMargin"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="EmailContainer/InboxMargin/VBoxContainer/ButtonMargin/Button"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MainScroll/EmailContainer/InboxContainer/InboxMargin/VBoxContainer/ButtonMargin/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -85,3 +122,15 @@ grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
 text = "[b]Mail:[/b] "
+
+[node name="AdMargin2" type="MarginContainer" parent="MainScroll/EmailContainer/InboxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Ad" parent="MainScroll/EmailContainer/InboxContainer/AdMargin2" instance=ExtResource("2_e31fb")]
+layout_mode = 2
+ad_type = 2

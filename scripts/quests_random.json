@@ -1,0 +1,23 @@
+{
+	
+	"quest_0": {
+		
+		"info": {
+			"character": {
+                "name:": "Pedrinho Computador Tunado",
+                "age": "Menor de 10 anos",
+                "allow_remote": false,
+            }
+		},
+		
+		"part_0": {
+			"info": "MEU PC TEM VÍRUS TIO, TÁ UM CAOS AQUI EM CASA, É MEU IRMÃO CHORANDO, MEU CARRO BEBENDO, MEU TIO LATINDO E MEU CACHORRO FUMANDO POR FAVOR TIO ME AJUDA EU IMPLORO TIO",
+			"answer": [
+				"Você já tentou ligar e desligar o PC?",
+				"Você sabe reinstalar Windows"
+			]
+		}
+		
+	}
+	
+}
