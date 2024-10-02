@@ -29,13 +29,9 @@ var small_icon_dir: String = "res://assets/basic_ui/placeholder/small_icon/"
 var window_scene = load("res://scenes/instantiated_scenes/ui/window_object.tscn")
 
 #NODES
+var desktop: Node = null
 var window_layer: Node = null
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
+var current_windows: Array = []
 
 func open_application(app_name: String = "") -> void:
 	create_window(Global.app_database[app_name]["scene_file"], Global.app_database[app_name]["icon"], Global.app_database[app_name]["name"], Vector2(250.0, 250.0), Global.app_database[app_name]["drag"], Global.app_database[app_name]["resize_w"], Global.app_database[app_name]["resize_h"], Global.app_database[app_name]["main_focus"], Global.app_database[app_name]["can_min"], Global.app_database[app_name]["can_wind"], Global.app_database[app_name]["can_close"], Global.app_database[app_name]["task_bar"], Global.app_database[app_name]["wind_size"], Global.app_database[app_name]["wind_min"], Global.app_database[app_name]["wind_max"], Global.app_database[app_name]["destroy"], Global.app_database[app_name]["inner_frame"],  Global.app_database[app_name]["is_malware"])

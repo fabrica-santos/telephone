@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cvd4wrlwbvm5j"]
 
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="1_3o73n"]
-[ext_resource type="Script" path="res://scripts/basic_ui/dekstop.gd" id="2_2cegm"]
+[ext_resource type="Script" path="res://scripts/basic_ui/desktop.gd" id="2_2cegm"]
 [ext_resource type="Texture2D" uid="uid://cp1nu8os2tqnt" path="res://assets/wallpaper/11.png" id="3_ecqgc"]
 [ext_resource type="PackedScene" uid="uid://dvnrdp6inypyc" path="res://scenes/instantiated_scenes/desktop/desktop_icon.tscn" id="4_5osce"]
 [ext_resource type="PackedScene" uid="uid://e8j4flhicau5" path="res://scenes/instantiated_scenes/ui/window_object.tscn" id="5_11efq"]
@@ -117,11 +117,12 @@ layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_3o73n")
 
-[node name="Panel" type="Panel" parent="Desktop/DesktopSplit/Taskbar"]
+[node name="TaskbarPanel" type="Panel" parent="Desktop/DesktopSplit/Taskbar"]
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_3o73n")
 
-[node name="BoxContainer" type="HBoxContainer" parent="Desktop/DesktopSplit/Taskbar/Panel"]
+[node name="ButtonsContainer" type="HBoxContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -130,12 +131,12 @@ grow_horizontal = 2
 theme = ExtResource("1_3o73n")
 alignment = 1
 
-[node name="BoxContainer2" type="VBoxContainer" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer"]
+[node name="StartBtnContainer" type="VBoxContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_3o73n")
 
-[node name="MarginContainer" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2"]
+[node name="StartBtnMarginContainer" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/StartBtnContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
@@ -145,28 +146,43 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Button" type="Button" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2/MarginContainer"]
+[node name="StartBtn" type="Button" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/StartBtnContainer/StartBtnMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_3o73n")
 text = "Iniciar
 "
 
-[node name="MarginContainer2" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer2"]
+[node name="Space" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/StartBtnContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_3o73n")
 
-[node name="BoxContainer4" type="HBoxContainer" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer"]
+[node name="BoxContainer4" type="HBoxContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("1_3o73n")
 
-[node name="BoxContainer3" type="VBoxContainer" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer"]
+[node name="AppMargin" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/BoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="TaskbarGrid" type="FlowContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/BoxContainer4/AppMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TimeBtnContainer" type="VBoxContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer"]
 layout_mode = 2
 theme = ExtResource("1_3o73n")
 
-[node name="MarginContainer" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3"]
+[node name="TimeBtnMargin" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/TimeBtnContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_3o73n")
@@ -175,13 +191,13 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Button" type="Button" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3/MarginContainer"]
+[node name="TimeBtn" type="Button" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/TimeBtnContainer/TimeBtnMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_3o73n")
 text = "16:34"
 
-[node name="MarginContainer2" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/Panel/BoxContainer/BoxContainer3"]
+[node name="Space" type="MarginContainer" parent="Desktop/DesktopSplit/Taskbar/TaskbarPanel/ButtonsContainer/TimeBtnContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_3o73n")

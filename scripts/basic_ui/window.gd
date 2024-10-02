@@ -11,7 +11,7 @@ const RESIZE_BORDER_SIZE = 5
 @export var is_maximized: bool = false
 @export var main_focus: bool = false
 @export var destroy_if_closed: bool = true
-@export var show_on_taskbar: bool = false
+@export var show_on_taskbar: bool = true
 @export var has_inner_frame: bool = true
 @export var is_malware: bool = false
 @export_category("Header Properties")
@@ -23,13 +23,14 @@ const RESIZE_BORDER_SIZE = 5
 @export var start_size: Vector2 = Vector2(100.0, 100.0)
 @export var min_size: Vector2 = Vector2(100.0, 100.0)
 @export var max_size: Vector2 = Vector2(800.0, 600.0)
+@export_category("Misc.")
+@export var focused: bool = false
 
 var _closed: bool = false
 var _initial_mouse: Vector2
 var _initial_pos: Vector2
 var _initial_size: Vector2
 var _mouse_on_header: bool = false
-var _focused: bool = false
 var _is_moving: bool = false
 var _resizing: Vector2 = Vector2(false, false)
 var _is_resizing: bool = false
@@ -37,6 +38,7 @@ var _original_window_size: Vector2
 var _original_window_pos: Vector2
 var _minimize_tex_array: Array = ["res://assets/basic_ui/mini_icon/max_btn.png", "res://assets/basic_ui/mini_icon/wind_btn.png"]
 var _outside_popup: bool = false
+var _taskbar_booted: bool = false
 
 @onready var win_panel: Panel = %Panel
 @onready var window_canvas: Control = %WindowCanvas
@@ -51,6 +53,8 @@ var _outside_popup: bool = false
 
 
 func _ready():
+	Global.current_windows.append(self)
+	
 	win_panel.grab_focus()
 	grab_click_focus()
 	min_btn.visible = can_minimize
@@ -92,7 +96,7 @@ func _gui_input(event) -> void:
 			
 		if _mouse_on_header:
 			
-			if draggable && _focused:
+			if draggable && focused:
 				_initial_mouse = get_global_mouse_position()
 				_initial_pos = get_global_position()
 				
@@ -140,7 +144,7 @@ func _gui_input(event) -> void:
 		
 	if Input.is_action_pressed("left_click"):
 		
-		if _is_moving && _focused:
+		if _is_moving && focused:
 			var new_position: Vector2 = _initial_pos + (get_global_mouse_position() - _initial_mouse)
 			set_position(Vector2(clamp(new_position.x, 0.0, 800.0 - get_size().x), clamp(new_position.y, 0.0, 600.0 - get_size().y)))
 		
@@ -206,6 +210,8 @@ func toggle_maximize():
 		is_maximized = false
 	wind_btn.get_child(0).texture = load(_minimize_tex_array[int(is_maximized)])
 
+func focus() -> void:
+	win_panel.grab_focus()
 
 func _on_header_mouse_entered() -> void:
 	_mouse_on_header = true
@@ -218,19 +224,21 @@ func _on_header_mouse_exited() -> void:
 
 
 func _on_panel_focus_entered() -> void:
-	_focused = true
-	window_canvas.set_process_input(_focused)
-	get_parent().move_child(self, get_parent().get_child_count())
+	if Global.desktop!= null:
+		Global.desktop.update_focus()
+	focused = true
+	window_canvas.set_process_input(focused)
+	get_parent().move_child.call_deferred(self, get_parent().get_child_count())
 	header_bg.color = Color(0.0, 0.0, 0.5)
-	#print("WINDOW_FOCUSED")
+	#print("WINDOWfocused")
 
 
 func _on_panel_focus_exited() -> void:
-	_focused = false
+	focused = false
 	_is_moving = false
 	_is_resizing = false
 	_resizing = Vector2(false, false)
-	window_canvas.set_process_input(_focused)
+	window_canvas.set_process_input(focused)
 	
 	if main_focus:
 		var _header_blink_tween: Tween = create_tween().set_loops(3)
@@ -255,9 +263,13 @@ func _on_close_btn_button_up() -> void:
 		queue_free()
 	
 	else:
-		_focused = false
+		focused = false
 		_is_moving = false
 		_is_resizing = false
-		window_canvas.set_process_input(_focused)
+		window_canvas.set_process_input(focused)
 		visible = false
 		_closed = true
+
+
+func _on_tree_exiting() -> void:
+	Global.current_windows.erase(self)
