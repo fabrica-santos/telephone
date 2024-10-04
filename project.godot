@@ -17,8 +17,8 @@ config/icon="res://assets/basic_ui/placeholder/icon.svg"
 
 [autoload]
 
-Global="*res://scripts/management/global.gd"
 GameManager="*res://scenes/management/game_manager.tscn"
+EventBus="*res://scripts/management/event_bus.gd"
 
 [display]
 

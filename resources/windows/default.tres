@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="DesktopWindow" load_steps=2 format=3 uid="uid://drshhuo7joae2"]
+
+[ext_resource type="Script" path="res://scripts/resources/desktop_window.gd" id="1_m2rbk"]
+
+[resource]
+script = ExtResource("1_m2rbk")
+draggable = true
+can_window = true
+can_minimize = true
+can_close = true
+is_maximized = false
+main_focus = false
+destroy_if_closed = true
+show_on_taskbar = true
+has_inner_frame = true
+is_malware = false
+window_name = ""
+resizable_width = true
+resizable_height = true
+start_size = Vector2(100, 100)
+min_size = Vector2(100, 100)
+max_size = Vector2(800, 600)
+focused = false

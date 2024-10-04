@@ -5,9 +5,9 @@ extends TextureButton
 
 var ad_number = randi_range(0,0)
 
-var box_path = "res://assets/ui/web/ad/box_"
-var sky_path = "res://assets/ui/web/ad/sky_"
-var lead_path = "res://assets/ui/web/ad/lead_"
+var box_path = "res://asset/ui/web/ad/box_"
+var sky_path = "res://asset/ui/web/ad/sky_"
+var lead_path = "res://asset/ui/web/ad/lead_"
 
 func _ready() -> void:
 	

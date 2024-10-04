@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="WindowSettings" load_steps=5 format=3 uid="uid://t5hgxqakhxdj"]
+
+[ext_resource type="Texture2D" uid="uid://bawb224s7oxyb" path="res://assets/basic_ui/placeholder/big_icon/capy.png" id="1_8cb2t"]
+[ext_resource type="Script" path="res://scripts/resources/desktop_window.gd" id="1_8m8qj"]
+[ext_resource type="PackedScene" uid="uid://syw6sngih5e3" path="res://scenes/app/games/capybara.tscn" id="3_h0ffv"]
+[ext_resource type="Texture2D" uid="uid://dip2w70xy4880" path="res://assets/basic_ui/placeholder/small_icon/capy.png" id="4_o1ww4"]
+
+[resource]
+script = ExtResource("1_8m8qj")
+application_name = "Capybara Game"
+window_content = ExtResource("3_h0ffv")
+draggable = true
+can_window = true
+can_minimize = true
+can_close = true
+maximize_at_start = false
+main_focus = false
+destroy_if_closed = true
+show_on_taskbar = true
+has_inner_frame = true
+is_malware = false
+desktop_icon = ExtResource("1_8cb2t")
+window_icon = ExtResource("4_o1ww4")
+window_name = "Capybara Game"
+resizable_width = true
+resizable_height = true
+start_size = Vector2(400, 325)
+min_size = Vector2(200, 150)
+max_size = Vector2(800, 600)

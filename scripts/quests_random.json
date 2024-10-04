@@ -6,15 +6,27 @@
 			"character": {
                 "name:": "Pedrinho Computador Tunado",
                 "age": "Menor de 10 anos",
-                "allow_remote": false,
+                "allow_remote": false
             }
 		},
 		
 		"part_0": {
-			"info": "MEU PC TEM VÍRUS TIO, TÁ UM CAOS AQUI EM CASA, É MEU IRMÃO CHORANDO, MEU CARRO BEBENDO, MEU TIO LATINDO E MEU CACHORRO FUMANDO POR FAVOR TIO ME AJUDA EU IMPLORO TIO",
+			"dialogue": "MEU PC TEM VÍRUS TIO, TÁ UM CAOS AQUI EM CASA, É MEU IRMÃO CHORANDO, MEU CARRO BEBENDO, MEU TIO LATINDO E MEU CACHORRO FUMANDO POR FAVOR TIO ME AJUDA EU IMPLORO TIO",
 			"answer": [
 				"Você já tentou ligar e desligar o PC?",
-				"Você sabe reinstalar Windows"
+				"Você sabe reinstalar Windows?"
+			],
+            "answer_types": [0, 0]
+		},
+
+        "part_1": {
+			"dialogue": [
+                "JÁ TENTEI TIO TÁ TUDO FEDIDO NÃO FUNCIONA POR FAVOR MIM AJUDA ;-; ;-; ;-;",
+                "SEI SIM TIO PASSA A CHAVE AÍ"
+            ],
+			"answer_0": [
+				"Você já tentou ligar e desligar o PC?",
+				"Você sabe reinstalar Windows?"
 			]
 		}
 		

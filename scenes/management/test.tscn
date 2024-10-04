@@ -1,13 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvd4wrlwbvm5j"]
+[gd_scene load_steps=6 format=3 uid="uid://cvd4wrlwbvm5j"]
 
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="1_3o73n"]
 [ext_resource type="Script" path="res://scripts/basic_ui/desktop.gd" id="2_2cegm"]
 [ext_resource type="Texture2D" uid="uid://cp1nu8os2tqnt" path="res://assets/wallpaper/11.png" id="3_ecqgc"]
 [ext_resource type="PackedScene" uid="uid://dvnrdp6inypyc" path="res://scenes/instantiated_scenes/desktop/desktop_icon.tscn" id="4_5osce"]
-[ext_resource type="PackedScene" uid="uid://e8j4flhicau5" path="res://scenes/instantiated_scenes/ui/window_object.tscn" id="5_11efq"]
-[ext_resource type="PackedScene" uid="uid://1ivy8l8hak37" path="res://scenes/apps/essential/email.tscn" id="6_q70h5"]
-[ext_resource type="PackedScene" uid="uid://bi60e6cksffol" path="res://scenes/apps/essential/phone.tscn" id="7_40klh"]
-[ext_resource type="Texture2D" uid="uid://dip2w70xy4880" path="res://assets/basic_ui/placeholder/small_icon/dino.png" id="7_g6q3x"]
+[ext_resource type="Resource" uid="uid://t5hgxqakhxdj" path="res://resources/windows/capybara.tres" id="5_ohiy4"]
 
 [node name="MainDesktop" type="Control"]
 texture_filter = 1
@@ -70,7 +67,13 @@ mouse_filter = 2
 
 [node name="DesktopIcon" parent="Desktop/DesktopSplit/Desktop/FolderLayer" instance=ExtResource("4_5osce")]
 z_as_relative = false
-application = "dinossaur"
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.225524
+anchor_bottom = 0.225524
+offset_top = -129.0
+offset_bottom = -29.0
+application = ExtResource("5_ohiy4")
 
 [node name="WindowLayer" type="Control" parent="Desktop/DesktopSplit/Desktop"]
 unique_name_in_owner = true
@@ -81,34 +84,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="WindowObject" parent="Desktop/DesktopSplit/Desktop/WindowLayer" instance=ExtResource("5_11efq")]
-offset_left = 113.0
-offset_top = 126.0
-offset_right = 213.0
-offset_bottom = 226.0
-window_content = ExtResource("6_q70h5")
-can_close = false
-destroy_if_closed = false
-has_inner_frame = false
-window_name = "E-Mail"
-window_icon = ExtResource("7_g6q3x")
-start_size = Vector2(500, 300)
-min_size = Vector2(300, 100)
-
-[node name="WindowObject2" parent="Desktop/DesktopSplit/Desktop/WindowLayer" instance=ExtResource("5_11efq")]
-offset_left = 127.0
-offset_top = 139.0
-offset_right = 227.0
-offset_bottom = 239.0
-window_content = ExtResource("7_40klh")
-can_close = false
-destroy_if_closed = false
-has_inner_frame = false
-window_name = "SUPER PHONE v3.0"
-window_icon = ExtResource("7_g6q3x")
-start_size = Vector2(550, 400)
-min_size = Vector2(300, 200)
 
 [node name="Taskbar" type="MarginContainer" parent="Desktop/DesktopSplit"]
 z_as_relative = false

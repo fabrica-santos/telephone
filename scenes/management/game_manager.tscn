@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://c3byman4gx1mu"]
 
-[ext_resource type="Script" path="res://scripts/management/game_manager.gd" id="1_1tr7m"]
+[ext_resource type="Script" path="res://scripts/management/game_manager.gd" id="1_iyd2q"]
 
 [node name="GameManager" type="Node"]
-script = ExtResource("1_1tr7m")
+script = ExtResource("1_iyd2q")
 
 [node name="CallWait" type="Timer" parent="."]
 one_shot = true

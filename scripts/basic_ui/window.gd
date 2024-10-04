@@ -1,44 +1,25 @@
 extends Control
+class_name DesktopWindow
 
 const RESIZE_BORDER_SIZE = 5
 
-@export_category("General Properties")
-@export var window_content: PackedScene
-@export var draggable: bool = true
-@export var can_window: bool = true
-@export var can_minimize: bool = true
-@export var can_close: bool = true
-@export var is_maximized: bool = false
-@export var main_focus: bool = false
-@export var destroy_if_closed: bool = true
-@export var show_on_taskbar: bool = true
-@export var has_inner_frame: bool = true
-@export var is_malware: bool = false
-@export_category("Header Properties")
-@export var window_name: String = ""
-@export var window_icon: CompressedTexture2D
-@export_category("Size Properties")
-@export var resizable_width: bool = true
-@export var resizable_height: bool = true
-@export var start_size: Vector2 = Vector2(100.0, 100.0)
-@export var min_size: Vector2 = Vector2(100.0, 100.0)
-@export var max_size: Vector2 = Vector2(800.0, 600.0)
-@export_category("Misc.")
+@export var window_settings = load("res://resources/windows/default.tres")
 @export var focused: bool = false
+@export var is_maximized: bool = false
 
-var _closed: bool = false
-var _initial_mouse: Vector2
-var _initial_pos: Vector2
-var _initial_size: Vector2
-var _mouse_on_header: bool = false
-var _is_moving: bool = false
-var _resizing: Vector2 = Vector2(false, false)
-var _is_resizing: bool = false
-var _original_window_size: Vector2
-var _original_window_pos: Vector2
-var _minimize_tex_array: Array = ["res://assets/basic_ui/mini_icon/max_btn.png", "res://assets/basic_ui/mini_icon/wind_btn.png"]
-var _outside_popup: bool = false
-var _taskbar_booted: bool = false
+var closed: bool = false
+var initial_mouse: Vector2
+var initial_pos: Vector2
+var initial_size: Vector2
+var mouse_on_header: bool = false
+var is_moving: bool = false
+var resizing: Vector2 = Vector2(false, false)
+var is_resizing: bool = false
+var original_window_size: Vector2
+var original_window_pos: Vector2
+var minimize_tex_array: Array = ["res://assets/basic_ui/mini_icon/max_btn.png", "res://assets/basic_ui/mini_icon/wind_btn.png"]
+var outside_popup: bool = false
+var taskbar_booted: bool = false
 
 @onready var win_panel: Panel = %Panel
 @onready var window_canvas: Control = %WindowCanvas
@@ -53,39 +34,42 @@ var _taskbar_booted: bool = false
 
 
 func _ready():
-	Global.current_windows.append(self)
+	EventBus.window_created.emit()
 	
 	win_panel.grab_focus()
 	grab_click_focus()
-	min_btn.visible = can_minimize
-	min_btn.disabled = !can_minimize
-	wind_btn.visible = can_window
-	wind_btn.disabled = !can_window
-	close_btn.visible = can_close
-	close_btn.disabled = !can_close
-	window_label.text = window_name
+	min_btn.visible = window_settings.can_minimize
+	min_btn.disabled = !window_settings.can_minimize
+	wind_btn.visible = window_settings.can_window
+	wind_btn.disabled = !window_settings.can_window
+	close_btn.visible = window_settings.can_close
+	close_btn.disabled = !window_settings.can_close
+	window_label.text = window_settings.window_name
 	
-	if main_focus:
+	if window_settings.main_focus:
 		grab_focus()
 	else:
 		prevent_click.queue_free()
 	
-	if window_icon != null:
-		icon_texture.texture = window_icon
+	if window_settings.window_icon != null:
+		icon_texture.texture = window_settings.window_icon
 	
 	else:
 		%IconContainer.visible = false
 	
 		
-	if window_content != null:
-		var content_instance: Node = window_content.instantiate()
+	if window_settings.window_content != null:
+		var content_instance: Node = window_settings.window_content.instantiate()
 		window_canvas.add_child(content_instance)
 	
-	if !has_inner_frame:
+	if !window_settings.has_inner_frame:
 		inner_frame.visible = false
 		inner_frame.get_parent().get_child(1).remove_theme_constant_override("margin")
 	
-	set_size(start_size)
+	if window_settings.maximize_at_start:
+		toggle_maximize()
+	
+	set_size(window_settings.start_size)
 
 
 func _gui_input(event) -> void:
@@ -94,94 +78,95 @@ func _gui_input(event) -> void:
 	
 	if Input.is_action_just_pressed("left_click"):
 			
-		if _mouse_on_header:
+		if mouse_on_header:
 			
-			if draggable && focused:
-				_initial_mouse = get_global_mouse_position()
-				_initial_pos = get_global_position()
+			if window_settings.draggable && focused:
+				initial_mouse = get_global_mouse_position()
+				initial_pos = get_global_position()
 				
 				if is_maximized:
-					set_size(Vector2(clamp(get_size().x / 2.0, min_size.x, max_size.x), clamp(get_size().y / 2.0, min_size.y, max_size.y)))
-					set_position(_initial_pos + (event.position - _initial_mouse))
+					set_size(Vector2(clamp(get_size().x / 2.0, window_settings.min_size.x, window_settings.max_size.x), clamp(get_size().y / 2.0, window_settings.min_size.y, window_settings.max_size.y)))
+					set_position(initial_pos + (event.position - initial_mouse))
 					set_global_position(Vector2(event.position.x - get_size().x / 2.0, get_position().y))
-					_initial_mouse = get_global_mouse_position()
-					_initial_pos = get_global_position()
+					initial_mouse = get_global_mouse_position()
+					initial_pos = get_global_position()
 					is_maximized = false
+					wind_btn.get_child(0).texture = load(minimize_tex_array[int(is_maximized)])
 				
-				_is_moving = true
+				is_moving = true
 		
 		else:
 			
-			if resizable_width:
+			if window_settings.resizable_width:
 				
 				if abs(_local_mouse_pos.x - _window_rect.size.x) < RESIZE_BORDER_SIZE:
-					_initial_mouse.x = event.position.x
-					_initial_size.x = get_size().x
-					_is_resizing = true
-					_resizing.x = true
+					initial_mouse.x = event.position.x
+					initial_size.x = get_size().x
+					is_resizing = true
+					resizing.x = true
 					
 				if _local_mouse_pos.x < RESIZE_BORDER_SIZE && _local_mouse_pos.x > -RESIZE_BORDER_SIZE:
-					_initial_mouse.x = event.position.x
-					_initial_size.x = get_size().x
-					_initial_pos.x = get_global_position().x
-					_is_resizing = true
-					_resizing.x = true
+					initial_mouse.x = event.position.x
+					initial_size.x = get_size().x
+					initial_pos.x = get_global_position().x
+					is_resizing = true
+					resizing.x = true
 			
-			if resizable_height:
+			if window_settings.resizable_height:
 				
 				if abs(_local_mouse_pos.y - _window_rect.size.y) < RESIZE_BORDER_SIZE:
-					_initial_mouse.y = event.position.y
-					_initial_size.y = get_size().y
-					_is_resizing = true
-					_resizing.y = true
+					initial_mouse.y = event.position.y
+					initial_size.y = get_size().y
+					is_resizing = true
+					resizing.y = true
 					
 				if _local_mouse_pos.y < RESIZE_BORDER_SIZE && _local_mouse_pos.y > -RESIZE_BORDER_SIZE:
-					_initial_mouse.y = event.position.y
-					_initial_size.y = get_size().y
-					_initial_pos.y = get_global_position().y
-					_is_resizing = true
-					_resizing.y = true
+					initial_mouse.y = event.position.y
+					initial_size.y = get_size().y
+					initial_pos.y = get_global_position().y
+					is_resizing = true
+					resizing.y = true
 		
 	if Input.is_action_pressed("left_click"):
 		
-		if _is_moving && focused:
-			var new_position: Vector2 = _initial_pos + (get_global_mouse_position() - _initial_mouse)
+		if is_moving && focused:
+			var new_position: Vector2 = initial_pos + (get_global_mouse_position() - initial_mouse)
 			set_position(Vector2(clamp(new_position.x, 0.0, 800.0 - get_size().x), clamp(new_position.y, 0.0, 600.0 - get_size().y)))
 		
-		if _is_resizing:
+		if is_resizing:
 			win_panel.grab_focus()
 			var _new_size: Vector2 = Vector2(get_size().x, get_size().y)
 			
-			if resizable_width:
+			if window_settings.resizable_width:
 				
-				if _resizing.x:
-					_new_size.x = _initial_size.x - (_initial_mouse.x - event.position.x)
+				if resizing.x:
+					_new_size.x = initial_size.x - (initial_mouse.x - event.position.x)
 				
-				if _initial_pos.x != 0:
-					_new_size.x = _initial_size.x + (_initial_mouse.x - event.position.x)
+				if initial_pos.x != 0:
+					_new_size.x = initial_size.x + (initial_mouse.x - event.position.x)
 					
-					if get_size().x > min_size.x:
-						set_position(Vector2(_initial_pos.x - (_new_size.x - _initial_size.x), get_position().y))
+					if get_size().x > window_settings.min_size.x:
+						set_position(Vector2(initial_pos.x - (_new_size.x - initial_size.x), get_position().y))
 						
-			if resizable_height:
+			if window_settings.resizable_height:
 				
-				if _resizing.y:
-					_new_size.y = _initial_size.y - (_initial_mouse.y - event.position.y)
+				if resizing.y:
+					_new_size.y = initial_size.y - (initial_mouse.y - event.position.y)
 			
-				if _initial_pos.y != 0:
-					_new_size.y = _initial_size.y + (_initial_mouse.y - event.position.y)
-					set_position(Vector2(get_position().x, _initial_pos.y - (_new_size.y - _initial_size.y)))
+				if initial_pos.y != 0:
+					_new_size.y = initial_size.y + (initial_mouse.y - event.position.y)
+					set_position(Vector2(get_position().x, initial_pos.y - (_new_size.y - initial_size.y)))
 			
-			set_size(Vector2(clamp(_new_size.x, min_size.x, max_size.x), clamp(_new_size.y, min_size.y, max_size.y)))
+			set_size(Vector2(clamp(_new_size.x, window_settings.min_size.x, window_settings.max_size.x), clamp(_new_size.y, window_settings.min_size.y, window_settings.max_size.y)))
 			self.grab_click_focus()
 	
 	if Input.is_action_just_released("left_click"):
-		_is_moving = false
-		_initial_pos = Vector2.ZERO
-		_is_resizing = false
-		_resizing = Vector2(false, false)
+		is_moving = false
+		initial_pos = Vector2.ZERO
+		is_resizing = false
+		resizing = Vector2(false, false)
 		
-		if get_global_position().y == 0.0:
+		if get_global_position().y == 0.0 && mouse_on_header:
 			toggle_maximize()
 
 	#if event.is_action("double_click", true) && _mouse_on_header && !is_maximized && can_window && event.is_double_click():
@@ -192,8 +177,8 @@ func _gui_input(event) -> void:
 func toggle_maximize():
 	
 	if !is_maximized:
-		_original_window_pos = global_position
-		_original_window_size = get_size()
+		original_window_pos = global_position
+		original_window_size = get_size()
 		set_anchors_preset(Control.PRESET_FULL_RECT, true)
 		set_offset(SIDE_LEFT, 0.0)
 		set_offset(SIDE_RIGHT, 0.0)
@@ -205,27 +190,26 @@ func toggle_maximize():
 	
 	else:
 		set_anchors_preset(Control.PRESET_TOP_LEFT, true)
-		set_size(_original_window_size)
-		set_position(_original_window_pos)
+		set_size(original_window_size)
+		set_position(original_window_pos)
 		is_maximized = false
-	wind_btn.get_child(0).texture = load(_minimize_tex_array[int(is_maximized)])
+	wind_btn.get_child(0).texture = load(minimize_tex_array[int(is_maximized)])
 
 func focus() -> void:
 	win_panel.grab_focus()
 
 func _on_header_mouse_entered() -> void:
-	_mouse_on_header = true
+	mouse_on_header = true
 	#print("WINDOW_HEADER_ENTERED")
 
 
 func _on_header_mouse_exited() -> void:
-	_mouse_on_header = false
+	mouse_on_header = false
 	#print("WINDOW_HEADER_EXITED")
 
 
 func _on_panel_focus_entered() -> void:
-	if Global.desktop!= null:
-		Global.desktop.update_focus()
+	EventBus.window_focused.emit(self)
 	focused = true
 	window_canvas.set_process_input(focused)
 	get_parent().move_child.call_deferred(self, get_parent().get_child_count())
@@ -235,12 +219,12 @@ func _on_panel_focus_entered() -> void:
 
 func _on_panel_focus_exited() -> void:
 	focused = false
-	_is_moving = false
-	_is_resizing = false
-	_resizing = Vector2(false, false)
+	is_moving = false
+	is_resizing = false
+	resizing = Vector2(false, false)
 	window_canvas.set_process_input(focused)
 	
-	if main_focus:
+	if window_settings.main_focus:
 		var _header_blink_tween: Tween = create_tween().set_loops(3)
 		_header_blink_tween.tween_property(header_bg, "color", Color(0.5,0.5,0.5), 0.0).set_trans(Tween.TRANS_QUAD)
 		_header_blink_tween.tween_interval(0.1)
@@ -259,17 +243,17 @@ func _on_wind_btn_up() -> void:
 
 func _on_close_btn_button_up() -> void:
 	
-	if destroy_if_closed:
+	if window_settings.destroy_if_closed:
 		queue_free()
 	
 	else:
 		focused = false
-		_is_moving = false
-		_is_resizing = false
+		is_moving = false
+		is_resizing = false
 		window_canvas.set_process_input(focused)
 		visible = false
-		_closed = true
+		closed = true
 
 
-func _on_tree_exiting() -> void:
-	Global.current_windows.erase(self)
+func _on_tree_exited() -> void:
+	EventBus.window_destroyed.emit()

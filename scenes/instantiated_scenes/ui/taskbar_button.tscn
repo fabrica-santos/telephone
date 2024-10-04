@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://b6s022nsl87bf"]
 
 [ext_resource type="Theme" uid="uid://xj70lsnjv8gq" path="res://assets/themes/comp_ui.tres" id="1_iatar"]
-[ext_resource type="Script" path="res://scripts/basic_ui/taskbar_button.gd" id="2_55ga1"]
 [ext_resource type="Texture2D" uid="uid://hktnknnrq3l4" path="res://assets/basic_ui/mini_icon/empty.png" id="2_jaojv"]
+[ext_resource type="Script" path="res://scripts/basic_ui/taskbar_button.gd" id="3_ac0e1"]
 
 [node name="TaskbarButton" type="Button"]
 theme = ExtResource("1_iatar")
 toggle_mode = true
 text = "AAAAAAAAA"
 icon = ExtResource("2_jaojv")
-script = ExtResource("2_55ga1")
+script = ExtResource("3_ac0e1")
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 0

@@ -1,8 +1,9 @@
 extends Control
 
+signal app_requested
 
 @export_category("General Properties")
-@export var application: String
+@export var application: WindowSettings = load("res://resources/windows/default.tres")
 @export var is_shortcut: bool = false
 @export var open_folder: bool = false
 @export var has_loading: bool = false
@@ -23,11 +24,11 @@ var _focused = false
 
 func _ready() -> void:
 	
-	if Global.app_database[application]["icon"] != "":
-		icon_img.texture = load(Global.big_icon_dir + Global.app_database[application]["icon"])
+	if application.desktop_icon != null:
+		icon_img.texture = application.desktop_icon
 
 	if title_label.text != null || title_label.text != "":
-		title_label.text = Global.app_database[application]["name"]
+		title_label.text = application.application_name
 
 
 func _input(event) -> void:
@@ -51,7 +52,7 @@ func _input(event) -> void:
 	
 	if event.is_action("double_click", true):
 		if _focused && event.is_double_click():
-			Global.open_application(application)
+			EventBus.window_open_requested.emit(application)
 			_on_icon_focus_exited()
 
 
