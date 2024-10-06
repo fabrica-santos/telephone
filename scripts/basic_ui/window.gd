@@ -70,6 +70,11 @@ func _ready():
 		toggle_maximize()
 	
 	set_size(window_settings.start_size)
+	
+	#window_canvas.reset_size()
+	if window_canvas.get_child(0) is Control:
+		window_canvas.get_child(0).reset_size()
+		window_canvas.get_child(0).set_anchors_preset(Control.PRESET_FULL_RECT, true)
 
 
 func _gui_input(event) -> void:
